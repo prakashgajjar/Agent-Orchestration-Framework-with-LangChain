@@ -1,0 +1,22 @@
+# Google Gemini
+google-generativeai
+
+# Pinecone Vector DB
+pinecone-client
+
+# LangChain (optional but useful for RAG)
+langchain
+langchain-google-genai
+langchain-community
+
+# Embedding + token usage
+tiktoken
+
+# Environment variables
+python-dotenv
+
+# API server (if you're building backend)
+fastapi
+uvicorn
+
+rich
