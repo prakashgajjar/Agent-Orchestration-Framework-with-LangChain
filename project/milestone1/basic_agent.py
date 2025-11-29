@@ -1,86 +1,62 @@
-
-# Milestone 1
-
 import os
 import re
 from dotenv import load_dotenv
+from rich.console import Console
 
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.prompts import PromptTemplate
-from langchain.chains import LLMChain
-
-from rich.console import Console
+from langchain.tools import StructuredTool
+from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain_core.prompts import ChatPromptTemplate
 
 console = Console()
 
-# Handmade Markdown Parser
 def parse_markdown_custom(text):
-    # Bold first
     text = re.sub(r"\*\*(.+?)\*\*", r"[bold blue]\1[/bold blue]", text)
-
-    # Italic
-    text = re.sub(r"(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)", 
-                  r"[italic yellow]\1[/italic yellow]", 
-                  text)
-
+    text = re.sub(r"(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)",
+                  r"[italic yellow]\1[/italic yellow]", text)
     return text
-
-
-# Load API Key
 
 load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-if not GEMINI_API_KEY:
-    raise Exception("Please set GEMINI_API_KEY in your .env file")
-
-
-# Init Gemini Model
-
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash",
-    api_key=GEMINI_API_KEY
+    api_key=GEMINI_API_KEY,
+    temperature=0.2
 )
 
+def echo_tool(text: str) -> str:
+    return f"[EchoTool Output] {text}"
 
-# Prompt Template
-
-prompt = PromptTemplate(
-    input_variables=["query"],
-    template="You are a smart AI assistant. Answer in clean format:\n\nQuestion: {query}"
+EchoTool = StructuredTool.from_function(
+    func=echo_tool,
+    name="EchoTool",
+    description="Echoes back the input text."
 )
 
-agent = LLMChain(
-    llm=llm,
-    prompt=prompt
-)
+tools = [EchoTool]
 
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are an AI assistant. Use tools when needed."),
+    ("user", "{input}"),
+    ("assistant", "{agent_scratchpad}")
+])
 
-# Chat Loop
+agent = create_tool_calling_agent(llm, tools, prompt)
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
 def run_console():
     console.print("[bold magenta]Gemini Agent Ready! Type 'exit' to quit.[/bold magenta]\n")
-
     while True:
         user_input = input("You: ")
-
         if user_input.lower() == "exit":
             console.print("[red]Goodbye[/red]")
             break
-
-        # Run model
-        response = agent.invoke({"query": user_input})
-        answer = response["text"] if isinstance(response, dict) else response
-
-        # Apply custom markdown colors
-        styled = parse_markdown_custom(answer)
-
+        response = agent_executor.invoke({"input": user_input})
+        answer = response.get("output", "No output returned.")
         console.print("\n[cyan]AI:[/cyan]")
-        console.print(styled)
+        console.print(parse_markdown_custom(answer))
         print()
-
-
-# Run
 
 if __name__ == "__main__":
     run_console()
