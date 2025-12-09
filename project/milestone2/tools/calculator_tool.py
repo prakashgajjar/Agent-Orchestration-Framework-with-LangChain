@@ -1,7 +1,10 @@
-def calculator_tool(expression: str) -> str:
+from langchain.tools import tool
+
+@tool
+def calculator(expression: str) -> str:
+    """Evaluate a safe mathematical expression."""
     try:
         result = eval(expression, {"__builtins__": {}})
-        # print(result)
         return str(result)
     except:
         return "Invalid math expression"

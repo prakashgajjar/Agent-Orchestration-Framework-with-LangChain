@@ -1,6 +1,9 @@
-def temp_converter_tool(input_text: str) -> str:
+from langchain.tools import tool
+
+@tool
+def temp_converter(input_text: str) -> str:
     """
-    Convert temperatures.
+    Convert temperature formats.
     Example: "100 C F"
     """
     try:
@@ -13,8 +16,7 @@ def temp_converter_tool(input_text: str) -> str:
         elif from_unit == "F" and to_unit == "C":
             return f"{value}°F = {((value - 32) * 5/9)}°C"
 
-        else:
-            return "Invalid format. Use: value C F or value F C"
+        return "Invalid format. Use: value C F or value F C"
 
     except Exception as e:
         return f"Temperature converter error: {str(e)}"

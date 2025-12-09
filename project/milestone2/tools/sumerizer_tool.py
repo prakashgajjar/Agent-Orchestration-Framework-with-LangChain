@@ -1,28 +1,26 @@
+from langchain.tools import tool
 from tools.config import model
 
-def summarizer_tool(input_text: str) -> str:
+
+
+@tool
+def summarizer(input_text: str) -> str:
     """
     Summarizes text.
-    
     Supports:
-    1) "short|text here"
-    2) "text here"  (auto short summary)
+    1) 'short|text here'
+    2) 'text here'
     """
-
     try:
-        # Case 1 check for "mode|text"
         if "|" in input_text:
-            parts = input_text.split("|", 1)
-            mode = parts[0].strip()
-            text = parts[1].strip()
+            mode, text = input_text.split("|", 1)
         else:
-            # Case 2 default mode = short summary
             mode = "short"
-            text = input_text.strip()
+            text = input_text
 
         prompt = f"""
         You are a summarizer.
-        Summarize the following text.
+        Summarize the text below.
 
         Mode: {mode}
         Text: {text}

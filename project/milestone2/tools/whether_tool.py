@@ -1,17 +1,14 @@
 import os
 import requests
 from dotenv import load_dotenv
+from langchain.tools import tool
 
 load_dotenv()
-
 OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
-def weather_tool(city: str) -> str:
-    """
-    Fetches REAL weather using OpenWeatherMap API.
-    Example call: weather("Patan")
-    """
-
+@tool
+def weather(city: str) -> str:
+    """Get real weather using OpenWeatherMap API."""
     try:
         if not city:
             return "City name required."
@@ -27,7 +24,6 @@ def weather_tool(city: str) -> str:
             return f"Weather API error: {response.json().get('message', 'Unknown error')}"
 
         data = response.json()
-
         temp = data["main"]["temp"]
         feels = data["main"]["feels_like"]
         humidity = data["main"]["humidity"]
