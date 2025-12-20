@@ -1,12 +1,17 @@
+# Core backend
 flask
 flask-cors
-python-dotenv
 gunicorn
+python-dotenv
 
+# LangChain core
 langchain
 langchain-community
-langchain-google-genai
+langchain-core
 
+# Vector store
+faiss-cpu
+
+# Google Gemini
+langchain-google-genai
 google-generativeai
-pydantic
-requests
