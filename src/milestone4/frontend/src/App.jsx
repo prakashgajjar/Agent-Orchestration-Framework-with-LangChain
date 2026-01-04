@@ -374,7 +374,10 @@ const App = () => {
     setResult(null);
 
     try {
-      const res = await fetch("https://agent-orchestration-framework-with-0ojn.onrender.com/run-workflow", {
+      const API_URL = import.meta.env.VITE_API_BASE_URL;
+      const API_URL_LOCAL = import.meta.env.VITE_API_BASE_URL_LOCAL;
+
+      const res = await fetch(API_URL_LOCAL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
