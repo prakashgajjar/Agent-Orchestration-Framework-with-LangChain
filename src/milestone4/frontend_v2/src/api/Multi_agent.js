@@ -7,9 +7,9 @@ export const Multi_Agent = async (topic) => {
   const API_URL = import.meta.env.VITE_API_BASE_URL;
   // console.log(API_URL_LOCAL , topic)
 
-  if (!API_URL_LOCAL) {
-    throw new Error("API base URL is not defined in environment variables");
-  }
+  // if (!API_URL_LOCAL) {
+  //   throw new Error("API base URL is not defined in environment variables");
+  // }
   try {
     const response = await axios.post(
       API_URL,
@@ -18,7 +18,7 @@ export const Multi_Agent = async (topic) => {
         headers: {
           "Content-Type": "application/json",
         },
-        timeout: 40000, 
+        timeout: 50000, 
       }
     );
 
