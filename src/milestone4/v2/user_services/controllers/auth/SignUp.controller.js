@@ -4,8 +4,8 @@ import User from "../../models/User.models.js";
 import cookieParser from "cookie-parser";
 
 const SignUp = async (req, res) => {
-  const { username, password, email, } = req.body;
-  console.log(username , password , email );
+  const { username, password, email } = req.body;
+  console.log(username, password, email);
   if (!username || !password || !email) {
     return res.status(400).json({ message: "Please fill all the fields" });
   }
@@ -33,7 +33,12 @@ const SignUp = async (req, res) => {
           process.env.JWT_SECRET,
           { expiresIn: "7d" }
         );
-        res.cookie("Token", Token, { httpOnly: true, path: "/" });
+        res.cookie("Token", Token, {
+          httpOnly: true,
+          secure: true, // REQUIRED (HTTPS only)
+          sameSite: "none", //REQUIRED for cross-site
+          path: "/",
+        });
 
         res.status(200).json({ message: "User created successfully", user });
       });

@@ -22,7 +22,12 @@ const signIn = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
-    res.cookie("Token", Token, { httpOnly: true, path: "/" });
+    res.cookie("Token", Token, {
+      httpOnly: true,
+      secure: true, // 🔥 REQUIRED (HTTPS only)
+      sameSite: "none", // 🔥 REQUIRED for cross-site
+      path: "/",
+    });
     res.status(200).json({ message: "Logged in successfully", user: { user } });
   } catch (error) {
     console.error(error.message);
