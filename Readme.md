@@ -10,7 +10,7 @@
 
 **An intelligent multi-agent orchestration system powered by LangChain, enabling collaborative AI agents to work together on complex tasks.**
 
-[🌐 Live Demo](https://agent-orchestration-framework-with-phi.vercel.app/) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start)
+[🌐 Live Demo](https://agent-orchestration-framework-with-beige.vercel.app/) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start)
 
 </div>
 
@@ -38,7 +38,7 @@ This project demonstrates a sophisticated **multi-agent orchestration system** b
 
 ### 🌐 Live Demo
 
-**Live Demo :** [https://agent-orchestration-framework-with-phi.vercel.app/](https://agent-orchestration-framework-with-phi.vercel.app/)
+**Live Demo :** [https://agent-orchestration-framework-with-beige.vercel.app/](https://agent-orchestration-framework-with-phi.vercel.app/)
 
 The live demo showcases:
 - 🔍 **Research Agent** - Gathers and analyzes information
