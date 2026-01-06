@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["https://agent-orchestration-framework-with-beige.vercel.app/"],
+    origin: "https://agent-orchestration-framework-with-beige.vercel.app",
     credentials: true,
   })
 );
