@@ -25,7 +25,7 @@ const signIn = async (req, res) => {
     res.cookie("Token", Token, {
       httpOnly: true,
       secure: true, // 🔥 REQUIRED (HTTPS only)
-      sameSite: "none", // 🔥 REQUIRED for cross-site
+      sameSite: "lax", // 🔥 REQUIRED for cross-site
       path: "/",
     });
     res.status(200).json({ message: "Logged in successfully", user: { user } });
